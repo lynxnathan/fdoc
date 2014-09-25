@@ -35,7 +35,20 @@ class Fdoc::Endpoint
           status_code, successful
         ]
     elsif successful
-      schema = set_additional_properties_false_on(response_parameters.dup)
+      schemas = set_additional_properties_false_on(response_parameters.dup)
+      schema = nil
+
+      if schemas.kind_of?(Array)
+        schemas.each do |s|
+          if s.kind_of?(Hash) && s['status'] && s['status'] == status_code
+            schema = s
+            break
+          end
+        end
+      else
+        schema = schemas
+      end
+
       JSON::Validator.validate!(schema, stringify_keys(params))
     else
       true
