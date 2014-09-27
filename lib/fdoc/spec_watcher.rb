@@ -19,7 +19,7 @@ module Fdoc
     def check_response(verb, request_params)
       successful = Fdoc.decide_success(response_params, real_response.status)
       Service.verify!(verb, path, parsed_request_params(request_params), response_params,
-                      real_response.status, successful)
+                      real_response.status, successful, validate_requests?)
     end
 
     def parsed_request_params request_params
@@ -32,6 +32,10 @@ module Fdoc
           {}
         end
       end
+    end
+
+    def validate_requests?
+      RSpec.current_example.metadata[:validate_request].nil? ? true : false
     end
 
     def path

@@ -32,10 +32,10 @@ class Fdoc::Service
   end
 
   def self.verify!(verb, path, request_params, response_params,
-                   response_status, successful)
+                   response_status, successful, should_validate_requests)
     service = Fdoc::Service.new(Fdoc.service_path)
     endpoint = service.open(verb, path)
-    endpoint.consume_request(request_params, successful)
+    endpoint.consume_request(request_params, successful) if should_validate_requests
     endpoint.consume_response(response_params, response_status, successful)
     endpoint.persist! if endpoint.respond_to?(:persist!)
   end

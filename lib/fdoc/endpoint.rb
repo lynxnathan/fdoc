@@ -21,7 +21,7 @@ class Fdoc::Endpoint
   end
 
   def consume_response(params, status_code, successful=true)
-    response_code = response_codes.find do |rc|
+    response_code = response_codes.each do |rc|
       rc["successful"] == successful && (
         rc["status"]      == status_code || # 200
         rc["status"].to_i == status_code    # "200 OK"
