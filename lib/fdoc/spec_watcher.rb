@@ -10,11 +10,19 @@ module Fdoc
 
         super(*params)
 
-        check_response(verb, request_params) if path
+        check_response(verb, request_params) if path && continue_validating?
       end
     end
 
+    define_method(:no_fdoc_validation_onwards) do
+      RSpec.current_example.metadata[:continue_validating] = false
+    end
+
     private
+
+    def continue_validating?
+      !(RSpec.current_example.metadata[:continue_validating] == false)
+    end
 
     def check_response(verb, request_params)
       successful = Fdoc.decide_success(response_params, real_response.status)
