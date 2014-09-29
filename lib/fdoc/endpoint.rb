@@ -49,6 +49,13 @@ class Fdoc::Endpoint
         schema = schemas
       end
 
+      if schema.nil?
+        raise Fdoc::UndocumentedResponseCode,
+          'Undocumented response: %s, successful: %s' % [
+              status_code, successful
+          ]
+      end
+
       JSON::Validator.validate!(schema, stringify_keys(params))
     else
       true
