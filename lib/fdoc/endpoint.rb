@@ -23,17 +23,17 @@ class Fdoc::Endpoint
   def consume_response(params, status_code, successful=true)
     response_code = response_codes.each do |rc|
       rc["successful"] == successful && (
-        rc["status"]      == status_code || # 200
-        rc["status"].to_i == status_code    # "200 OK"
+      rc["status"]      == status_code || # 200
+          rc["status"].to_i == status_code    # "200 OK"
       )
     end
 
 
     if !response_code
       raise Fdoc::UndocumentedResponseCode,
-        'Undocumented response: %s, successful: %s' % [
-          status_code, successful
-        ]
+            'Undocumented response: %s, successful: %s' % [
+                status_code, successful
+            ]
     elsif successful
       schemas = set_additional_properties_false_on(response_parameters.dup)
       schema = nil
@@ -51,9 +51,9 @@ class Fdoc::Endpoint
 
       if schema.nil?
         raise Fdoc::UndocumentedResponseCode,
-          'Undocumented response: %s, successful: %s' % [
-              status_code, successful
-          ]
+              'Undocumented response: %s, successful: %s' % [
+                  status_code, successful
+              ]
       end
 
       JSON::Validator.validate!(schema, stringify_keys(params))
@@ -68,8 +68,8 @@ class Fdoc::Endpoint
 
   def path
     @path ||= endpoint_path.
-                gsub(service.service_dir, "").
-                match(/\/?(.*)[-\/][A-Z]+\.fdoc/)[1]
+        gsub(service.service_dir, "").
+        match(/\/?(.*)[-\/][A-Z]+\.fdoc/)[1]
   end
 
   # properties
@@ -121,14 +121,15 @@ class Fdoc::Endpoint
 
   def stringify_keys(obj)
     case obj
-    when Hash
-      result = {}
-      obj.each do |k, v|
-        result[k.to_s] = stringify_keys(v)
-      end
-      result
-    when Array then obj.map { |v| stringify_keys(v) }
-    else obj
+      when Hash
+        result = {}
+        obj.each do |k, v|
+          result[k.to_s] = stringify_keys(v)
+        end
+        result
+      when Array then obj.map { |v| stringify_keys(v) }
+      when Date then obj.to_s
+      else obj
     end
   end
 end
