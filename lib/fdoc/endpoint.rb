@@ -29,7 +29,7 @@ class Fdoc::Endpoint
     end
 
 
-    if !response_code
+    if !response_code || !contain_status?(status_code, response_code)
       raise Fdoc::UndocumentedResponseCode,
             'Undocumented response: %s, successful: %s' % [
                 status_code, successful
@@ -131,5 +131,12 @@ class Fdoc::Endpoint
       when Date then obj.to_s
       else obj
     end
+  end
+
+  def contain_status?(status_code, responses_code)
+    responses_code.each do |response_code|
+      return true if response_code['status'] == status_code
+    end
+    return false
   end
 end
