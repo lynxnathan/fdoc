@@ -33,7 +33,7 @@ module Fdoc
         end
       end
 
-      file_readed
+      file_readed + '\n'
     end
   end
 end
