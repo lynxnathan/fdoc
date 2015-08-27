@@ -9,7 +9,7 @@ class Fdoc::Endpoint
 
   def initialize(endpoint_path, service=Fdoc::Service.default_service)
     @endpoint_path = endpoint_path
-    @schema = YAML.load_file(@endpoint_path)
+    @schema = Fdoc::Parser.new(endpoint_path).parse
     @service = service
   end
 

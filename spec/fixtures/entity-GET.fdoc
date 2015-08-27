@@ -1,0 +1,24 @@
+# Import: ./partials/entity.fdoc
+description: Show a entity
+requestParameters:
+  properties:
+    id:
+      type: integer
+      required: yes
+      description: Identificator
+      example: 2
+responseParameters:
+  properties:
+    entity:
+      description: Entity requested
+      required: true
+      type: object
+      properties:
+        <<: *entity
+responseCodes:
+  - status: 200 OK
+    successful: yes
+    description: Returns the entity
+  - status: 404 Not Found
+    successful: no
+    description: The entity not found

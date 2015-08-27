@@ -1,0 +1,6 @@
+properties: &entity
+  name:
+    description: Name
+    required: false
+    type: string
+    example: João
