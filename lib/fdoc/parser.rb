@@ -9,7 +9,6 @@ module Fdoc
 
     def parse(file_path)
       file = read_file(file_path)
-      puts file
       YAML.load(file)
     end
 
