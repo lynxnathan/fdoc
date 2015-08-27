@@ -3,37 +3,38 @@ require 'yaml'
 module Fdoc
   class Parser
 
-    def initialize(file_path)
-      @file_path = file_path
-      @dirname = File.dirname(file_path)
+    def initialize(root_path)
+      @root_path = root_path
     end
 
-    def parse
-      file = File.open(@file_path, "r")
-      imports = parse_imports(file)
-
-      YAML.load(imports + file.read)
+    def parse(file_path)
+      file = read_file(file_path)
+      puts file
+      YAML.load(file)
     end
 
     private
 
-    def parse_imports(file)
-      imports = ""
+    def read_file(file_path)
+      file = File.open(File.join(@root_path, file_path), "r")
+
+      read_in_depth(file)
+    end
+
+    def read_in_depth(file)
+      file_readed = ""
 
       while (line = file.gets)
         import = line.scan(/\# Import: (.*)/).first
+
         if !import.nil? && !import.empty?
-          imports += open_import(import.first)
+          file_readed += read_file(import.first)
+        else
+          file_readed += line
         end
       end
 
-      file.seek(0, IO::SEEK_SET)
-      imports
+      file_readed
     end
-
-    def open_import(import)
-      File.open(File.join(@dirname, import), "r").read
-    end
-
   end
 end

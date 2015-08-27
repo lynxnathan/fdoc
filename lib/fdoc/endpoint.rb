@@ -9,7 +9,7 @@ class Fdoc::Endpoint
 
   def initialize(endpoint_path, service=Fdoc::Service.default_service)
     @endpoint_path = endpoint_path
-    @schema = Fdoc::Parser.new(endpoint_path).parse
+    @schema = Fdoc::Parser.new(Fdoc.service_path).parse(endpoint_path)
     @service = service
   end
 

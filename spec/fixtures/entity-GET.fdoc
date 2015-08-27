@@ -1,4 +1,4 @@
-# Import: ./partials/entity.fdoc
+# Import: partials/entity.fdoc
 description: Show a entity
 requestParameters:
   properties:
