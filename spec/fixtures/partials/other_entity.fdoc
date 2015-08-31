@@ -1,2 +1,5 @@
+# Import: partials/more_entity.fdoc
 otherEntity: &otherEntity
   name: Other Entity
+  entity:
+    <<: *moreEntity

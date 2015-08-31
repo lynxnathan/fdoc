@@ -5,6 +5,7 @@ module Fdoc
 
     def initialize(root_path)
       @root_path = root_path
+      @files_imported = []
     end
 
     def parse(file_path)
@@ -15,7 +16,11 @@ module Fdoc
     private
 
     def read_file(file_path)
+      return '' if @files_imported.include? file_path
+
       file = File.open(File.join(@root_path, file_path), "r")
+
+      @files_imported << file_path
 
       read_in_depth(file)
     end
