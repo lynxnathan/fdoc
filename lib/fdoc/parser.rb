@@ -3,8 +3,7 @@ require 'yaml'
 module Fdoc
   class Parser
 
-    def initialize(root_path)
-      @root_path = root_path
+    def initialize
       @files_imported = []
     end
 
@@ -18,7 +17,7 @@ module Fdoc
     def read_file(file_path)
       return '' if @files_imported.include? file_path
 
-      file = File.open(File.join(@root_path, file_path), "r")
+      file = File.open(file_path, "r")
 
       @files_imported << file_path
 
