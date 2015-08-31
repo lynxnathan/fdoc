@@ -18,7 +18,7 @@ module Fdoc
     def read_file(file_path)
       return '' if @files_imported.include? file_path
 
-      file = File.open(File.join(@root_path, file_path), "r")
+      file = File.open(file_path, "r")
 
       @files_imported << file_path
 
