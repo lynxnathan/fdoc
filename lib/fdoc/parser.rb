@@ -31,7 +31,8 @@ module Fdoc
         import = line.scan(/\# Import: (.*)/).first
 
         if !import.nil? && !import.empty?
-          file_readed += read_file(import.first)
+          import_path = File.join(Fdoc.service_path, import.first)
+          file_readed += read_file(import_path)
         else
           file_readed += line
         end
